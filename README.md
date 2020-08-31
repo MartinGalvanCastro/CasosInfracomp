@@ -1,1 +1,1 @@
-# CasosInfracomp
+# Repo de los casos de infracomp
