@@ -6,19 +6,19 @@ public class Servidor implements Runnable{
 	 * Identificador del servidor
 	 */
 	private int id;
-	
+
 	/*
 	 *Buffer del servidor 
 	 */
-	private Buffer buff;
-	
-	
+	private Buffer3<Mensaje> buff;
+
+
 	/**
 	 * Metodo Constructor
 	 * @param id, id del cliente
 	 * @param buff, buffer del cliente
 	 */
-	public Servidor(int id, Buffer buff) {
+	public Servidor(int id, Buffer3<Mensaje> buff) {
 		this.id = id;
 		this.buff = buff;
 	}
@@ -46,7 +46,7 @@ public class Servidor implements Runnable{
 	 * Metodo que retorna el buffer del servidor
 	 * @return Buffer del servidor
 	 */
-	public Buffer getBuff() {
+	public Buffer3<Mensaje> getBuff() {
 		return buff;
 	}
 
@@ -55,16 +55,21 @@ public class Servidor implements Runnable{
 	 * Metodo que cambia el buffer del servidor
 	 * @param buff, nuevo buffer del servidor
 	 */
-	public void setBuff(Buffer buff) {
+	public void setBuff(Buffer3<Mensaje> buff) {
 		this.buff = buff;
 	}
 
 
-	public void responderMensaje(){
-		Mensaje mensajePorResponder=buff.retirar();
-		synchronized (mensajePorResponder) {
-			mensajePorResponder.addValor();
-			mensajePorResponder.notify();
+	public void responderMensaje() throws InterruptedException{
+		Mensaje mensajePorResponder=(Mensaje) buff.dequeue();
+		if(mensajePorResponder==null){
+			Thread.yield();
+		}
+		else{
+			synchronized (mensajePorResponder) {
+				mensajePorResponder.addValor();
+				mensajePorResponder.notifyAll();
+			}
 		}
 	}
 
@@ -73,10 +78,15 @@ public class Servidor implements Runnable{
 	 */
 	@Override
 	public void run() {
-		while(!buff.apagarSistema()){
-			responderMensaje();
+		while(buff.getClientes()>0){
+			try {
+				responderMensaje();
+			} catch (InterruptedException e) {
+				System.out.println("Error al responder el mensaje");
+				e.printStackTrace();
+			}
 		}
-		
+		System.out.println("Acaban Servidores");
 	}
 
 }

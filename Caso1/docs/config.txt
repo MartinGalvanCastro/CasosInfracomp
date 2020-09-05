@@ -2,4 +2,4 @@ PARAMFILE
 cliente:20
 servidor:5
 mensaje:30
-buffer:2
+buffer:5

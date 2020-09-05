@@ -10,7 +10,7 @@ public class Cliente implements Runnable{
 	/*
 	 * Buffer del Cliente
 	 */
-	private Buffer buff;
+	private Buffer3<Mensaje> buff;
 	
 	/*
 	 * Mensajes a enviar, mensajes enviados y mensajes respondidos
@@ -23,7 +23,7 @@ public class Cliente implements Runnable{
 	 * @param id, id del cliente
 	 * @param buff, buffer del cliente
 	 */
-	public Cliente(int id,Buffer buff,int mensajesEnviar){
+	public Cliente(int id,Buffer3<Mensaje> buff,int mensajesEnviar){
 		this.id=id;
 		this.buff=buff;
 		this.mensajesEnviar=mensajesEnviar;
@@ -31,12 +31,13 @@ public class Cliente implements Runnable{
 	
 	/**
 	 * Metodo que envia mensajes al buffer
+	 * @throws InterruptedException 
 	 */
-	public void enviarMensaje(){
+	public void enviarMensaje() throws InterruptedException{
 		mensajesEnviados++;
 		mensajesEnviar--;
 		Mensaje mensajeEnviar = generarMensaje();
-		buff.almacenar(mensajeEnviar);
+		buff.enqueue(mensajeEnviar);
 		while(buff.estaEnBuffer(mensajeEnviar)){
 			synchronized (mensajeEnviar) {
 				try {
@@ -48,9 +49,6 @@ public class Cliente implements Runnable{
 			}
 		}
 		mensajesEnviar--;
-		if(yaAcabo()){
-			buff.decClientesEsperados();
-		}
 	}
 	
 	/**
@@ -80,7 +78,7 @@ public class Cliente implements Runnable{
 	 * Metodo que returna el buffer del cliente
 	 * @return El buffer del cliente
 	 */
-	public Buffer getBuff() {
+	public Buffer3<Mensaje> getBuff() {
 		return buff;
 	}
 
@@ -89,7 +87,7 @@ public class Cliente implements Runnable{
 	 * Metodo le asigna un nuevo buffer al cliente
 	 * @param buff, nuevo buffer del cliente
 	 */
-	public void setBuff(Buffer buff) {
+	public void setBuff(Buffer3<Mensaje> buff) {
 		this.buff = buff;
 	}
 
@@ -132,8 +130,17 @@ public class Cliente implements Runnable{
 	@Override
 	public void run() {
 		while(!yaAcabo()){
-			enviarMensaje();
+			try {
+				enviarMensaje();
+			} catch (InterruptedException e) {
+				System.out.println("Error al mandar el mensaje");
+				e.printStackTrace();
+			}
 		}
+		System.out.println("Cliente acabo");
+		buff.decClientesEsperados();
+		System.out.println(buff.getClientes());
+		
 	}
 	
 	/**
