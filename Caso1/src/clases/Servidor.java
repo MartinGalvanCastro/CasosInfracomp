@@ -10,7 +10,7 @@ public class Servidor implements Runnable{
 	/*
 	 *Buffer del servidor 
 	 */
-	private Buffer3<Mensaje> buff;
+	private Buffer<Mensaje> buff;
 
 
 	/**
@@ -18,7 +18,7 @@ public class Servidor implements Runnable{
 	 * @param id, id del cliente
 	 * @param buff, buffer del cliente
 	 */
-	public Servidor(int id, Buffer3<Mensaje> buff) {
+	public Servidor(int id, Buffer<Mensaje> buff) {
 		this.id = id;
 		this.buff = buff;
 	}
@@ -46,7 +46,7 @@ public class Servidor implements Runnable{
 	 * Metodo que retorna el buffer del servidor
 	 * @return Buffer del servidor
 	 */
-	public Buffer3<Mensaje> getBuff() {
+	public Buffer<Mensaje> getBuff() {
 		return buff;
 	}
 
@@ -55,20 +55,25 @@ public class Servidor implements Runnable{
 	 * Metodo que cambia el buffer del servidor
 	 * @param buff, nuevo buffer del servidor
 	 */
-	public void setBuff(Buffer3<Mensaje> buff) {
+	public void setBuff(Buffer<Mensaje> buff) {
 		this.buff = buff;
 	}
 
-
+	/**
+	 * Metodo para responder el mensaje captado en el buffer
+	 * @throws InterruptedException
+	 */
 	public void responderMensaje() throws InterruptedException{
-		Mensaje mensajePorResponder=(Mensaje) buff.dequeue();
+		Mensaje mensajePorResponder=(Mensaje) buff.sacarObjeto(); //Se obtiene el mensaje ddel buffer
 		if(mensajePorResponder==null){
-			Thread.yield();
+			Thread.yield();				//Si no hay mensaje, el servidor hace yield
 		}
 		else{
 			synchronized (mensajePorResponder) {
-				mensajePorResponder.addValor();
-				mensajePorResponder.notifyAll();
+				System.out.println("Se recibio el mensaje ["+mensajePorResponder.toString()+"]");
+				mensajePorResponder.addValor();		//Se cambia el valor del mensaje
+				mensajePorResponder.notifyAll();	//Se responde el mensaje
+				System.out.println("Se Respondio el mensaje ["+mensajePorResponder.toString()+"]");
 			}
 		}
 	}
@@ -78,15 +83,15 @@ public class Servidor implements Runnable{
 	 */
 	@Override
 	public void run() {
-		while(buff.getClientes()>0){
+		while(buff.getClientes()>0){	//Los servidores estan activos siempre y cuando hayan clientes en el buffer
 			try {
-				responderMensaje();
+				responderMensaje();		//Siempre van a estar respondiendo mensajes
 			} catch (InterruptedException e) {
-				System.out.println("Error al responder el mensaje");
+				System.out.println("Error al responder el mensaje");	//Si se decetecta un error, hay excepcion
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Acaban Servidores");
+		System.out.println("Se apago el servidor: " + this.id);	//Mensaje avisando que se acabo el servidor
 	}
 
 }

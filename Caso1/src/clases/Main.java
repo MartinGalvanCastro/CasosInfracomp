@@ -33,9 +33,19 @@ public class Main {
 			}
 		sc.close();
 		
+		System.out.println("--------------------------------------");
+		System.out.println("--------------------------------------");
+		System.out.println("Parametros");
+		System.out.println("NumClientes: "+clientes);
+		System.out.println("Servidores: "+servidores);
+		System.out.println("MensajesPorCliente: " + mensajesPorCliente);
+		System.out.println("Tamaño del buffer: " + tamBuffer);
+		System.out.println("--------------------------------------");
+		System.out.println("--------------------------------------");
+		
 		Thread[] clientesArray=new Thread[clientes];
 		Thread[] servidoresArray=new Thread[servidores];
-		Buffer3<Mensaje> buff = new Buffer3<Mensaje>(tamBuffer, clientes);
+		Buffer<Mensaje> buff = new Buffer<Mensaje>(tamBuffer, clientes);
 		
 		for (int i = 0; i < clientesArray.length; i++) {
 			clientesArray[i] = new Thread(new Cliente(i, buff, mensajesPorCliente));

@@ -112,6 +112,10 @@ public class Mensaje implements Comparable<Mensaje>{
 		}
 	}
 
+	
+	public String toString(){
+		return "Cliente id:" +this.cliente.getId() +". Num Mensaje: "+ this.getNum();
+	}
 
 
 
