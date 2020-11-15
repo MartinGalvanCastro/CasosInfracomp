@@ -67,9 +67,9 @@ public class CrackerContrasenia extends Thread{
 	 */
 	private long tInicio;
 
-	
+
 	private int len;
-	
+
 	/**
 	 * Metodo constructor de Cracker Contrasenia
 	 * @param id, id del thread
@@ -125,16 +125,14 @@ public class CrackerContrasenia extends Thread{
 				}
 				return LISTO;
 			}
-			for (int i = comienzo; i < finall && !LISTO; i++) {
-				if(sb.isEmpty()){
+			if(sb.isEmpty()){
+				for (int i = comienzo; i < finall && !LISTO; i++) {
 					generarCadena(sb+ALFABETO.charAt(i));
 				}
-				else{
-					for (int j = 0; j < ALFABETO.length(); j++) {
-						generarCadena(sb+ALFABETO.charAt(j));
-					}
+			}else{
+				for (int j = 0; j < ALFABETO.length(); j++) {
+					generarCadena(sb+ALFABETO.charAt(j));
 				}
-
 			}
 		}
 		return LISTO;

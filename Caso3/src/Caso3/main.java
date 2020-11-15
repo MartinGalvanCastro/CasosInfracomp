@@ -33,14 +33,7 @@ public class main {
 		System.out.println("El algoritmo seleccionado es: " +algoritmos[algoritmo]);
 		if(verificarCadena(cadena)) {
 			byte[] codigoHash = generarCodigo(cadena, algoritmos[algoritmo]);
-			System.out.println("COMIENZA LA TOMA DE DATOS");
-			for (int i = 0; i < 1; i++) {
-				System.out.println("#########################################");
-				System.out.println("Toma: "+ i+1);
-				identificarEntrada(codigoHash, algoritmos[algoritmo]);
-				System.out.println("#########################################");
-			}
-
+			identificarEntrada(codigoHash, algoritmos[algoritmo]);
 		}else {
 			System.err.println("La cadena "+cadena+ " no es una cadena valida, verifique que sean maximo 7 caracteres alfabeticos en minuscula");
 			throw new Exception("Cadena no valida");
@@ -94,7 +87,7 @@ public class main {
 				threads[i].join();
 			}
 
-			
+
 
 		}catch (Exception e) {
 			// TODO: handle exception
