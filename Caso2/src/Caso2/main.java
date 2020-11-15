@@ -1,4 +1,4 @@
-package main;
+package Caso2;
 
 
 import java.security.MessageDigest;
@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import main.CrackerContrasenia;
+
 
 public class main {
 
