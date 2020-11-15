@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import java.lang.management.ManagementFactory;
+import java.lang.Math;
 import javax.management.Attribute;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -17,7 +18,7 @@ public class main {
 
 	public final static String[] algoritmos = new String[]{"MD5","SHA-256","SHA-384","SHA-512"};
 
-	public final static int MAXLENGTH = 7;
+	public static int MAXLENGTH;
 
 	/**
 	 * Metodo main
@@ -26,12 +27,20 @@ public class main {
 	 */
 	public static void main(String[] args) throws Exception {
 		Scanner in = new Scanner(System.in);
-		int algoritmo = menu(in);
+		int algoritmo = 0;
 		String cadena = "zzzzzzz";
+		MAXLENGTH=cadena.length();
 		System.out.println("El algoritmo seleccionado es: " +algoritmos[algoritmo]);
 		if(verificarCadena(cadena)) {
 			byte[] codigoHash = generarCodigo(cadena, algoritmos[algoritmo]);
-			identificarEntrada(codigoHash, algoritmos[algoritmo]);
+			System.out.println("COMIENZA LA TOMA DE DATOS");
+			for (int i = 0; i < 1; i++) {
+				System.out.println("#########################################");
+				System.out.println("Toma: "+ i+1);
+				identificarEntrada(codigoHash, algoritmos[algoritmo]);
+				System.out.println("#########################################");
+			}
+
 		}else {
 			System.err.println("La cadena "+cadena+ " no es una cadena valida, verifique que sean maximo 7 caracteres alfabeticos en minuscula");
 			throw new Exception("Cadena no valida");
@@ -60,31 +69,32 @@ public class main {
 	 * @param algoritmo. Algoritmo de cifrado para generar el codigo
 	 * @throws NoSuchAlgorithmException 
 	 */
-	public static void identificarEntrada(byte[]cadena,String algoritmo) throws NoSuchAlgorithmException{
+	public static synchronized void identificarEntrada(byte[]cadena,String algoritmo) throws NoSuchAlgorithmException{
+		int letrasAlfabeto = 27;
 		int numeroThreads = 1;
-		int rango = MAXLENGTH/numeroThreads;	//Se obtiene en cuantas particiones se tiene que 
+		int rango = letrasAlfabeto/numeroThreads;	//Se obtiene en cuantas particiones se tiene que 
 		int fin = 0;					//Se define el fin para la iteracion
 		int id=0;						//ID de los threads
-		boolean listo=false;			//Atributo compartido
 		CrackerContrasenia[] threads = new CrackerContrasenia[numeroThreads+1];
-		while(fin<MAXLENGTH) {	 
+		while(fin<letrasAlfabeto && id<numeroThreads) {	 
 			int com = fin+1;	//Se calculan los rangos
 			fin = com + rango;
-			if (fin>MAXLENGTH) {
-				fin = MAXLENGTH;
+			if (fin>letrasAlfabeto) {
+				fin = letrasAlfabeto-1*(numeroThreads-1-id);
 			}
-			threads[id] = new CrackerContrasenia(id+1, com, fin, algoritmo, cadena);
+			threads[id] = new CrackerContrasenia(id+1, com-1, fin,algoritmo, cadena,MAXLENGTH);
 			id++;
 		}
 		threads[id] = new medicionCPU(id+1);
-		for (int i = 0; i < threads.length; i++) {
-			threads[i].start();
-		}
 		try {
-						
+			for (int i = 0; i < threads.length; i++) {
+				threads[i].start();
+			}
 			for (int i = 0; i < threads.length; i++) {
 				threads[i].join();
 			}
+
+			
 
 		}catch (Exception e) {
 			// TODO: handle exception
