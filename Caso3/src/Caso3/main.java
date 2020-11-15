@@ -62,7 +62,7 @@ public class main {
 	 * @param algoritmo. Algoritmo de cifrado para generar el codigo
 	 * @throws NoSuchAlgorithmException 
 	 */
-	public static synchronized void identificarEntrada(byte[]cadena,String algoritmo) throws NoSuchAlgorithmException{
+	public static void identificarEntrada(byte[]cadena,String algoritmo) throws NoSuchAlgorithmException{
 		int letrasAlfabeto = 27;
 		int numeroThreads = 1;
 		int rango = letrasAlfabeto/numeroThreads;	//Se obtiene en cuantas particiones se tiene que 
@@ -80,14 +80,9 @@ public class main {
 		}
 		threads[id] = new medicionCPU(id+1);
 		try {
-			for (int i = 0; i < threads.length; i++) {
+			for (int i = threads.length-1; i >=0 ; i--) {
 				threads[i].start();
 			}
-			for (int i = 0; i < threads.length; i++) {
-				threads[i].join();
-			}
-
-
 
 		}catch (Exception e) {
 			// TODO: handle exception

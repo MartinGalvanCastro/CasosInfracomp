@@ -45,7 +45,7 @@ public class CrackerContrasenia extends Thread{
 	/*
 	 * Variable para sincronizar todos los threads si alguno encontro la cadena correcta
 	 */
-	private static boolean LISTO=false;
+	protected static boolean LISTO=false;
 
 	/*
 	 * Variable que represeta la cadena encontrada

@@ -9,11 +9,11 @@ import javax.management.ObjectName;
 
 public class medicionCPU extends CrackerContrasenia{
 
-	
+
 	public medicionCPU(int id){
 		super(id);
 	}
-	
+
 	public double getSystemCpuLoad() throws Exception {
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 		ObjectName name = ObjectName.getInstance("java.lang:type=OperatingSystem");
@@ -29,19 +29,22 @@ public class medicionCPU extends CrackerContrasenia{
 		// returns a percentage value with 1 decimal point precision
 		return ((int)(value * 1000) / 10.0);
 	}
-	
-	
+
+
 	@Override
 	public void run() {
-		while(!this.getListo()) {
-			try {
-				System.out.println("La carga actual del CPU es: " + getSystemCpuLoad());
-				Thread.sleep(300000);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		synchronized (this) {
+			while(!this.getListo()) {
+				try {
+					System.out.println("La carga actual del CPU es: " + getSystemCpuLoad());
+					wait(1000*5*60);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
 		}
+
 	}
 
 }
