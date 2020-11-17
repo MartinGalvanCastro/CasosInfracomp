@@ -27,7 +27,7 @@ public class main {
 	 */
 	public static void main(String[] args) throws Exception {
 		int algoritmo = 0;
-		String cadena = "zzzzzz";
+		String cadena = "zzzzzzz";
 		MAXLENGTH=cadena.length();
 		System.out.println("El algoritmo seleccionado es: " +algoritmos[algoritmo]);
 		if(verificarCadena(cadena)) {
@@ -67,7 +67,7 @@ public class main {
 		int rango = letrasAlfabeto/numeroThreads;	//Se obtiene en cuantas particiones se tiene que 
 		int fin = 0;					//Se define el fin para la iteracion
 		int id=0;						//ID de los threads
-		CrackerContrasenia[] threads = new CrackerContrasenia[numeroThreads+2];
+		CrackerContrasenia[] threads = new CrackerContrasenia[numeroThreads+1];
 		while(fin<letrasAlfabeto && id<numeroThreads) {	 
 			int com = fin+1;	//Se calculan los rangos
 			fin = com + rango;
@@ -78,14 +78,11 @@ public class main {
 			id++;
 		}
 		threads[id] = new medicionCPU(id+1);
-		threads[id+1] = new medicionTiempo(id+2);
 		try {
 			for (int i = threads.length-1; i >=0 ; i--) {
 				threads[i].start();
 			}
-			for (int i = threads.length-1; i >=0 ; i--) {
-				threads[i].join();
-			}
+
 
 		}catch (Exception e) {
 			// TODO: handle exception
