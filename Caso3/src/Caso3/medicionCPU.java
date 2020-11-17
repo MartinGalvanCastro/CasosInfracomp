@@ -37,7 +37,7 @@ public class medicionCPU extends CrackerContrasenia{
 			while(!this.getListo()) {
 				try {
 					System.out.println("La carga actual del CPU es: " + getSystemCpuLoad());
-					wait(1000);
+					wait(1000*5*6);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -27,7 +27,7 @@ public class main {
 	 */
 	public static void main(String[] args) throws Exception {
 		int algoritmo = 0;
-		String cadena = "zzzz";
+		String cadena = "zzzzzz";
 		MAXLENGTH=cadena.length();
 		System.out.println("El algoritmo seleccionado es: " +algoritmos[algoritmo]);
 		if(verificarCadena(cadena)) {
@@ -78,7 +78,7 @@ public class main {
 			id++;
 		}
 		threads[id] = new medicionCPU(id+1);
-		threads[id++] = new medicionTiempo(id+2);
+		threads[id+1] = new medicionTiempo(id+2);
 		try {
 			for (int i = threads.length-1; i >=0 ; i--) {
 				threads[i].start();
