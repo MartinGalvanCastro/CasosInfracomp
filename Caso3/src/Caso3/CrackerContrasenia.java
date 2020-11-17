@@ -163,7 +163,6 @@ public class CrackerContrasenia extends Thread{
 	public void run() {
 		System.out.println("El thread "+this.id+" va a revisar el las cadenas con longitudes en el rango ["+comienzoW+","+finallW+"]"); 
 		String sb = "";
-		new medicionTiempo(1).run();
 		generarCadena(sb);
 		if(this.respuesta.equals("")) {
 			//System.out.println("El thread "+this.id+" no encocntro la cadena. Se tomo: "+duracion+" segundos en determinar el resultado");
