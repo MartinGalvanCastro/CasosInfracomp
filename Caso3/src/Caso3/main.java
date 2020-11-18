@@ -78,7 +78,6 @@ public class main {
 			id++;
 		}
 		threads[id] = new medicionCPU(id+1);
-		new medicionTiempo(id).start();
 		try {
 			for (int i = threads.length-1; i >=0 ; i--) {
 				threads[i].start();
