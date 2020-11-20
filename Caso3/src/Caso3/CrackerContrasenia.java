@@ -146,9 +146,10 @@ public class CrackerContrasenia extends Thread{
 	 * @param tfinal
 	 * @return
 	 */
-	private float conversorTiempo(long tfinal) {
-		return (tfinal-this.tInicio)/1000F;
+	private void conversorTiempo(long tfinal) {
+		System.out.println( (System.currentTimeMillis()-this.tInicio)/1000F);
 	}
+
 
 	public boolean getListo() {
 		return LISTO;
@@ -164,11 +165,11 @@ public class CrackerContrasenia extends Thread{
 		String sb = "";
 		long tInicial = System.currentTimeMillis();
 		generarCadena(sb);
-		float duracion = conversorTiempo(System.currentTimeMillis());
 		if(this.respuesta.equals("")) {
 			//System.out.println("El thread "+this.id+" no encocntro la cadena. Se tomo: "+duracion+" segundos en determinar el resultado");
 		}else {
-			System.out.println("El thread "+this.id+" encocntro la cadena. Se tomo: "+duracion+" segundos en determinar el resultado. La cadena es: "+ this.respuesta);
+			System.out.println("El thread "+this.id+" encocntro la cadena. La cadena es: "+ this.respuesta);
 		}
+		conversorTiempo(tInicial);
 	}
-}	
+}
