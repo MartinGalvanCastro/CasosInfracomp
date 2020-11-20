@@ -146,8 +146,8 @@ public class CrackerContrasenia extends Thread{
 	 * @param tfinal
 	 * @return
 	 */
-	private void conversorTiempo(long tfinal) {
-		System.out.println( (System.currentTimeMillis()-this.tInicio)/1000F);
+	private float conversorTiempo(long tfinal) {
+		return (tfinal-this.tInicio)/1000F;
 	}
 
 
@@ -161,15 +161,15 @@ public class CrackerContrasenia extends Thread{
 	 */
 	@Override
 	public void run() {
+		this.tInicio=System.currentTimeMillis();
 		System.out.println("El thread "+this.id+" va a revisar el las cadenas con longitudes en el rango ["+comienzoW+","+finallW+"]"); 
 		String sb = "";
-		long tInicial = System.currentTimeMillis();
 		generarCadena(sb);
+		float duracion = conversorTiempo(System.currentTimeMillis());
 		if(this.respuesta.equals("")) {
 			//System.out.println("El thread "+this.id+" no encocntro la cadena. Se tomo: "+duracion+" segundos en determinar el resultado");
 		}else {
-			System.out.println("El thread "+this.id+" encocntro la cadena. La cadena es: "+ this.respuesta);
+			System.out.println("El thread "+this.id+" encocntro la cadena. Se tomo: "+duracion+" segundos en determinar el resultado. La cadena es: "+ this.respuesta);
 		}
-		conversorTiempo(tInicial);
 	}
 }

@@ -27,7 +27,7 @@ public class main {
 	 */
 	public static void main(String[] args) throws Exception {
 		int algoritmo = 0;
-		String cadena = "dzzzzzz";
+		String cadena = "dzzzz";
 		MAXLENGTH=cadena.length();
 		System.out.println("El algoritmo seleccionado es: " +algoritmos[algoritmo]);
 		if(verificarCadena(cadena)) {
