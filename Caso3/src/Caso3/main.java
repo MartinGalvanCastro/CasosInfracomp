@@ -29,6 +29,7 @@ public class main {
 		int algoritmo = 0;
 		String cadena = "gzzzzzz";
 		MAXLENGTH=cadena.length();
+		System.out.println("El espacio de la JVM es: " + Runtime.getRuntime().maxMemory()/(1024*1024) + "MiB");
 		System.out.println("El algoritmo seleccionado es: " +algoritmos[algoritmo]);
 		if(verificarCadena(cadena)) {
 			byte[] codigoHash = generarCodigo(cadena, algoritmos[algoritmo]);
