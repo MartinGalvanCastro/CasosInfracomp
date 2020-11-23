@@ -86,7 +86,7 @@ public class CrackerContrasenia extends Thread{
 		this.finallW+=ALFABETO.charAt(f-1);
 		this.comienzoW+=ALFABETO.charAt(c);
 		for (int i = 0; i < longitud-1; i++) {
-			this.comienzoW+=ALFABETO.charAt(c);
+			this.comienzoW+=ALFABETO.charAt(0);
 			this.finallW+=ALFABETO.charAt(ALFABETO.length()-1);
 		}
 		this.md = MessageDigest.getInstance(algoritmo);

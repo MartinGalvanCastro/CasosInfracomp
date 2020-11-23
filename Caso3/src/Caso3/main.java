@@ -16,7 +16,7 @@ import javax.management.AttributeList;
 
 public class main {
 
-	public final static String[] algoritmos = new String[]{"MD5","SHA-256","SHA-384","SHA-512"};
+	public final static String[] algoritmos = new String[]{"MD5","SHA-256","SHA-512"};
 
 	public static int MAXLENGTH;
 
@@ -27,7 +27,7 @@ public class main {
 	 */
 	public static void main(String[] args) throws Exception {
 		int algoritmo = 0;
-		String cadena = "dzzzz";
+		String cadena = "gzzzzzz";
 		MAXLENGTH=cadena.length();
 		System.out.println("El algoritmo seleccionado es: " +algoritmos[algoritmo]);
 		if(verificarCadena(cadena)) {
@@ -63,7 +63,7 @@ public class main {
 	 */
 	public static void identificarEntrada(byte[]cadena,String algoritmo) throws NoSuchAlgorithmException{
 		int letrasAlfabeto = 27;
-		int numeroThreads = 8;	
+		int numeroThreads = 4;	
 		int rango = letrasAlfabeto/numeroThreads;	//Se obtiene en cuantas particiones se tiene que 
 		int fin = 0;					//Se define el fin para la iteracion
 		int id=0;						//ID de los threads
